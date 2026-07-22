@@ -119,7 +119,18 @@
   --spacing: 0.25rem;
 }
 
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 @theme inline {
+  --animate-skeleton-shimmer: skeleton-shimmer 1.6s ease-in-out infinite;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

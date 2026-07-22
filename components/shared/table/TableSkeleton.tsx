@@ -33,10 +33,10 @@ export function TableSkeleton({
         <table className="w-full">
           {showHeader ? (
             <thead>
-              <tr className="border-b bg-muted/50">
+              <tr className="border-b bg-muted/40 dark:bg-muted/60">
                 {skeletonCols.map((col) => (
                   <th key={`header-${col}`} className="px-6 py-4 text-left">
-                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-3.5 w-20" />
                   </th>
                 ))}
               </tr>
