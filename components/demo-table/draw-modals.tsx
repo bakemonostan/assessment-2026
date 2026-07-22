@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
 import { AlertModal } from "@/components/shared/modals/AlertModal"
 import { ModalContainer } from "@/components/shared/modals/ModalContainer"
@@ -9,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Spinner } from "@/components/ui/spinner"
 
 import { formatCurrency, STATUS_VARIANT, type DemoDraw } from "./data"
 
@@ -55,6 +55,7 @@ export function ViewDrawModal({ draw, open, onOpenChange }: Props) {
 
 type EditProps = Props & {
   onSave: (name: string) => void
+  isPending?: boolean
 }
 
 export function EditDrawModal({
@@ -62,6 +63,7 @@ export function EditDrawModal({
   open,
   onOpenChange,
   onSave,
+  isPending = false,
 }: EditProps) {
   const [name, setName] = useState(draw?.name ?? "")
 
@@ -83,19 +85,23 @@ export function EditDrawModal({
           <Input
             id="draw-name"
             value={name}
+            disabled={isPending}
             onChange={(event) => setName(event.target.value)}
           />
         </div>
         <div className="flex justify-end gap-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            variant="outline"
+            disabled={isPending}
+            onClick={() => onOpenChange(false)}
+          >
             Cancel
           </Button>
           <Button
-            onClick={() => {
-              onSave(name.trim() || draw?.name || "")
-              toast.success("Draw updated")
-            }}
+            disabled={isPending}
+            onClick={() => onSave(name.trim() || draw?.name || "")}
           >
+            {isPending ? <Spinner data-icon="inline-start" /> : null}
             Save
           </Button>
         </div>
@@ -106,6 +112,7 @@ export function EditDrawModal({
 
 type DeleteProps = Props & {
   onConfirm: () => void
+  isPending?: boolean
 }
 
 export function DeleteDrawModal({
@@ -113,6 +120,7 @@ export function DeleteDrawModal({
   open,
   onOpenChange,
   onConfirm,
+  isPending = false,
 }: DeleteProps) {
   return (
     <AlertModal
@@ -126,10 +134,8 @@ export function DeleteDrawModal({
       }
       variant="destructive"
       confirmText="Delete"
-      onConfirm={() => {
-        onConfirm()
-        toast.success("Draw deleted")
-      }}
+      isPending={isPending}
+      onConfirm={onConfirm}
     />
   )
 }

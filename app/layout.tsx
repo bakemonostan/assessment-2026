@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Inter, Source_Serif_4, JetBrains_Mono } from "next/font/google"
 
+import { AppProviders } from "@/components/providers/app-providers"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -39,8 +40,10 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <ThemeProvider>
-          {children}
-          <Toaster />
+          <AppProviders>
+            {children}
+            <Toaster />
+          </AppProviders>
         </ThemeProvider>
       </body>
     </html>
