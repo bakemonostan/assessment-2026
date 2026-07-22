@@ -1,11 +1,14 @@
-import { Controller, type FieldValues } from "react-hook-form";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDownIcon } from "lucide-react";
-import { useState } from "react";
-import type { DatePickerFieldProps } from "./types";
+import { useState } from "react"
+import { Controller, type FieldValues } from "react-hook-form"
+import { ChevronDownIcon } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
+
+import { useFieldId, type DatePickerFieldProps } from "./types"
 
 /**
  * Form field component for single date selection.
@@ -19,22 +22,33 @@ export function FieldDatePicker<T extends FieldValues>({
   label = "Label",
   description,
   placeholder = "Select date",
+  id,
+  disabled,
+  className,
 }: DatePickerFieldProps<T>) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const fieldId = useFieldId(String(name), id)
 
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field>
-          <FieldLabel>{label}</FieldLabel>
+        <Field data-disabled={disabled ? true : undefined}>
+          <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger
+              disabled={disabled}
               render={
                 <Button
+                  id={fieldId}
                   variant="outline"
-                  className="h-10 w-full justify-between border-border bg-background font-normal text-foreground shadow-sm hover:bg-muted/50 [&[data-state=open]]:ring-2 [&[data-state=open]]:ring-ring/20"
+                  disabled={disabled}
+                  aria-invalid={fieldState.invalid || undefined}
+                  className={cn(
+                    "h-10 w-full justify-between border-border bg-background font-normal text-foreground shadow-sm hover:bg-muted/50 [&[data-state=open]]:ring-2 [&[data-state=open]]:ring-ring/20",
+                    className
+                  )}
                 />
               }
             >
@@ -51,16 +65,17 @@ export function FieldDatePicker<T extends FieldValues>({
                 selected={field.value}
                 captionLayout="dropdown"
                 onSelect={(date) => {
-                  field.onChange(date);
-                  setOpen(false);
+                  field.onChange(date)
+                  setOpen(false)
                 }}
+                disabled={disabled}
               />
             </PopoverContent>
           </Popover>
-          {description && <FieldDescription>{description}</FieldDescription>}
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          {description ? <FieldDescription>{description}</FieldDescription> : null}
+          {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
         </Field>
       )}
     />
-  );
+  )
 }

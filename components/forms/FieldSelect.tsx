@@ -1,13 +1,21 @@
-import { Controller, type FieldValues } from "react-hook-form";
+import { Controller, type FieldValues } from "react-hook-form"
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
-import { getOptionLabel, getOptionValue, type SelectFieldProps } from "./types";
+} from "@/components/ui/select"
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field"
+import { cn } from "@/lib/utils"
+
+import {
+  getOptionLabel,
+  getOptionValue,
+  useFieldId,
+  type SelectFieldProps,
+} from "./types"
 
 /**
  * Form field component for select dropdowns.
@@ -28,17 +36,29 @@ export function FieldSelect<T extends FieldValues>({
   label = "Label",
   placeholder = "Choose option",
   description,
+  id,
   disabled = false,
+  className,
 }: SelectFieldProps<T>) {
+  const fieldId = useFieldId(String(name), id)
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field>
-          <FieldLabel>{label}</FieldLabel>
-          <Select value={field.value} onValueChange={field.onChange} disabled={disabled}>
-            <SelectTrigger>
+        <Field data-disabled={disabled ? true : undefined}>
+          <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
+          <Select
+            value={field.value}
+            onValueChange={field.onChange}
+            disabled={disabled}
+          >
+            <SelectTrigger
+              id={fieldId}
+              aria-invalid={fieldState.invalid || undefined}
+              className={cn(className)}
+            >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
@@ -49,10 +69,10 @@ export function FieldSelect<T extends FieldValues>({
               ))}
             </SelectContent>
           </Select>
-          {description && <FieldDescription>{description}</FieldDescription>}
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          {description ? <FieldDescription>{description}</FieldDescription> : null}
+          {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
         </Field>
       )}
     />
-  );
+  )
 }

@@ -1,10 +1,13 @@
-import { Controller, type FieldValues } from "react-hook-form";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
-import { Textarea } from "@/components/ui/textarea";
-import type { TextFieldProps } from "./types";
+import { Controller, type FieldValues } from "react-hook-form"
+
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
+
+import { useFieldId, type TextFieldProps } from "./types"
 
 interface FieldTextareaProps<T extends FieldValues> extends TextFieldProps<T> {
-  rows?: number;
+  rows?: number
 }
 
 /**
@@ -17,30 +20,37 @@ export function FieldTextarea<T extends FieldValues>({
   name,
   control,
   label = "Label",
-  htmlFor,
-  inputId,
+  id,
   rows = 4,
   placeholder = "Placeholder text",
   description,
+  autoComplete,
+  disabled,
+  className,
 }: FieldTextareaProps<T>) {
+  const fieldId = useFieldId(String(name), id)
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field>
-          <FieldLabel htmlFor={htmlFor ?? inputId}>{label}</FieldLabel>
+        <Field data-disabled={disabled ? true : undefined}>
+          <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
           <Textarea
             {...field}
-            id={inputId}
+            id={fieldId}
             placeholder={placeholder}
             rows={rows}
-            className="resize-none min-h-28"
+            autoComplete={autoComplete}
+            disabled={disabled}
+            aria-invalid={fieldState.invalid || undefined}
+            className={cn("min-h-28 resize-none", className)}
           />
-          {description && <FieldDescription>{description}</FieldDescription>}
-          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          {description ? <FieldDescription>{description}</FieldDescription> : null}
+          {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
         </Field>
       )}
     />
-  );
+  )
 }

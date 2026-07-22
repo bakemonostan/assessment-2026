@@ -1,7 +1,10 @@
-import { Controller, type FieldValues } from "react-hook-form";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
-import { Checkbox } from "@/components/ui/checkbox";
-import type { CheckboxFieldProps } from "./types";
+import { Controller, type FieldValues } from "react-hook-form"
+
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field"
+import { Checkbox } from "@/components/ui/checkbox"
+import { cn } from "@/lib/utils"
+
+import { useFieldId, type CheckboxFieldProps } from "./types"
 
 /**
  * Form field component for a single checkbox.
@@ -20,21 +23,36 @@ export function FieldCheckbox<T extends FieldValues>({
   label,
   description,
   text,
+  id,
+  disabled,
+  className,
 }: CheckboxFieldProps<T>) {
+  const fieldId = useFieldId(String(name), id)
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => (
-        <Field orientation="horizontal">
-          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+        <Field
+          orientation="horizontal"
+          data-disabled={disabled ? true : undefined}
+        >
+          <Checkbox
+            id={fieldId}
+            checked={field.value}
+            onCheckedChange={field.onChange}
+            disabled={disabled}
+            aria-invalid={fieldState.invalid || undefined}
+            className={cn(className)}
+          />
           <div className="flex flex-col gap-1">
-            <FieldLabel>{text ?? label}</FieldLabel>
-            {description && <FieldDescription>{description}</FieldDescription>}
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            <FieldLabel htmlFor={fieldId}>{text ?? label}</FieldLabel>
+            {description ? <FieldDescription>{description}</FieldDescription> : null}
+            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
           </div>
         </Field>
       )}
     />
-  );
+  )
 }
