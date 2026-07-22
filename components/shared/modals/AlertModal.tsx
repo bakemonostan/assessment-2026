@@ -1,6 +1,6 @@
 "use client"
 
-import { isValidElement } from "react"
+import { isValidElement, useRef } from "react"
 
 import {
   AlertDialog,
@@ -16,49 +16,18 @@ import {
 import { Spinner } from "@/components/ui/spinner"
 
 import type { AlertModalProps } from "./types"
+import { focusFirstField } from "./focus"
 
 export type { AlertModalProps, SharedModalProps } from "./types"
 
 /**
  * Confirmation dialog built on shadcn AlertDialog (Base UI).
  *
+ * Focus: first field in the body if present, otherwise Cancel/Confirm.
+ * On close, focus returns to the trigger / previously focused element.
+ *
  * Use for destructive or irreversible actions (delete, cancel draw, etc.).
  * Controlled via `open` / `onOpenChange`.
- *
- * @example
- * ```tsx
- * const [open, setOpen] = useState(false)
- *
- * <AlertModal
- *   open={open}
- *   onOpenChange={setOpen}
- *   title="Delete draw?"
- *   description="This cannot be undone."
- *   variant="destructive"
- *   cancelText="Keep"
- *   confirmText="Delete"
- *   isPending={isPending}
- *   onConfirm={() => {
- *     deleteDraw()
- *     setOpen(false)
- *   }}
- * />
- * ```
- *
- * @example
- * With a trigger button:
- * ```tsx
- * <AlertModal
- *   open={open}
- *   onOpenChange={setOpen}
- *   trigger={<Button variant="outline">Cancel draw</Button>}
- *   title="Cancel this draw?"
- *   description="Tickets already sold will remain valid until you confirm."
- *   variant="destructive"
- *   confirmText="Cancel draw"
- *   onConfirm={handleCancel}
- * />
- * ```
  */
 export function AlertModal({
   open,
@@ -74,12 +43,19 @@ export function AlertModal({
   children,
   className,
 }: AlertModalProps) {
+  const contentRef = useRef<HTMLDivElement>(null)
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       {isValidElement(trigger) ? (
         <AlertDialogTrigger render={trigger} />
       ) : null}
-      <AlertDialogContent className={className}>
+      <AlertDialogContent
+        ref={contentRef}
+        className={className}
+        initialFocus={() => focusFirstField(contentRef.current)}
+        finalFocus
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           {description ? (
