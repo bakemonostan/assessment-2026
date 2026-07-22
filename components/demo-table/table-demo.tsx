@@ -6,7 +6,9 @@ import { toast } from "sonner"
 
 import { ModeToggle } from "@/components/mode-toggle"
 import { DataTable } from "@/components/shared/table/DataTable"
+import { getErrorMessage } from "@/lib/api/api.utils"
 import { deleteDraw, listDraws, updateDraw } from "@/lib/api/draws"
+import { toastApiError } from "@/lib/api/toast"
 import { queryKeys } from "@/lib/query/keys"
 
 import { getDemoColumns } from "./columns"
@@ -25,7 +27,7 @@ export function TableDemo() {
   const [mode, setMode] = useState<"view" | "edit" | "delete" | null>(null)
 
   const drawsQuery = useQuery({
-    queryKey: queryKeys.draws.list(status),
+    queryKey: queryKeys.draws.list({ status }),
     queryFn: () => listDraws({ status }),
   })
 
@@ -37,9 +39,7 @@ export function TableDemo() {
       toast.success("Draw updated")
       setMode(null)
     },
-    onError: (error: Error) => {
-      toast.error(error.message)
-    },
+    onError: toastApiError,
   })
 
   const deleteMutation = useMutation({
@@ -49,9 +49,7 @@ export function TableDemo() {
       toast.success("Draw deleted")
       setMode(null)
     },
-    onError: (error: Error) => {
-      toast.error(error.message)
-    },
+    onError: toastApiError,
   })
 
   const columns = useMemo(
@@ -93,7 +91,7 @@ export function TableDemo() {
 
       {drawsQuery.isError ? (
         <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
-          {drawsQuery.error.message}
+          {getErrorMessage(drawsQuery.error)}
         </div>
       ) : null}
 

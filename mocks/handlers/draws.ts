@@ -6,9 +6,22 @@ type UpdateDrawBody = {
   name?: string
 }
 
+function isDrawsList({ request }: { request: Request }) {
+  return new URL(request.url).pathname === "/api/draws"
+}
+
+function isDrawById({ request }: { request: Request }) {
+  return /^\/api\/draws\/[^/]+$/.test(new URL(request.url).pathname)
+}
+
+function drawIdFromRequest(request: Request) {
+  return new URL(request.url).pathname.split("/").pop()!
+}
+
 export const drawsHandlers = [
-  http.get("/api/draws", ({ request }) => {
+  http.get(isDrawsList, ({ request }) => {
     const url = new URL(request.url)
+
     if (url.searchParams.get("fail") === "1") {
       return HttpResponse.json(
         { message: "Failed to load draws" },
@@ -25,16 +38,18 @@ export const drawsHandlers = [
     return HttpResponse.json({ data })
   }),
 
-  http.get("/api/draws/:id", ({ params }) => {
-    const draw = drawsStore.find((item) => item.id === params.id)
+  http.get(isDrawById, ({ request }) => {
+    const id = drawIdFromRequest(request)
+    const draw = drawsStore.find((item) => item.id === id)
     if (!draw) {
       return HttpResponse.json({ message: "Draw not found" }, { status: 404 })
     }
     return HttpResponse.json({ data: draw })
   }),
 
-  http.patch("/api/draws/:id", async ({ params, request }) => {
-    const index = drawsStore.findIndex((item) => item.id === params.id)
+  http.patch(isDrawById, async ({ request }) => {
+    const id = drawIdFromRequest(request)
+    const index = drawsStore.findIndex((item) => item.id === id)
     if (index === -1) {
       return HttpResponse.json({ message: "Draw not found" }, { status: 404 })
     }
@@ -49,13 +64,14 @@ export const drawsHandlers = [
     return HttpResponse.json({ data: updated })
   }),
 
-  http.delete("/api/draws/:id", ({ params }) => {
-    const index = drawsStore.findIndex((item) => item.id === params.id)
+  http.delete(isDrawById, ({ request }) => {
+    const id = drawIdFromRequest(request)
+    const index = drawsStore.findIndex((item) => item.id === id)
     if (index === -1) {
       return HttpResponse.json({ message: "Draw not found" }, { status: 404 })
     }
 
     drawsStore.splice(index, 1)
-    return HttpResponse.json({ data: { id: params.id } })
+    return HttpResponse.json({ data: { id } })
   }),
 ]

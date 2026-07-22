@@ -3,6 +3,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useState, type ReactNode } from "react"
 
+import { shouldRetryRequest } from "@/lib/api/api.utils"
+
 export function QueryProvider({ children }: { children: ReactNode }) {
   const [client] = useState(
     () =>
@@ -10,8 +12,11 @@ export function QueryProvider({ children }: { children: ReactNode }) {
         defaultOptions: {
           queries: {
             staleTime: 30_000,
-            retry: 1,
+            retry: shouldRetryRequest,
             refetchOnWindowFocus: false,
+          },
+          mutations: {
+            retry: false,
           },
         },
       })
