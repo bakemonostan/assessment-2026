@@ -1,7 +1,8 @@
-// For adding custom fonts with other frameworks, see:
-// https://tailwindcss.com/docs/font-family
 import type { Metadata } from "next"
 import { Inter, Source_Serif_4, JetBrains_Mono } from "next/font/google"
+
+import { ThemeProvider } from "@/components/theme-provider"
+
 import "./globals.css"
 
 const fontSans = Inter({
@@ -30,11 +31,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
-      >
-        {children}
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable}`}
+    >
+      <body className="antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   )
