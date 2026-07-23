@@ -25,4 +25,5 @@ export const queryKeys: Record<
   ReturnType<typeof createQueryKeyFactory>
 > = {
   draws: createQueryKeyFactory("draws"),
+  dashboard: createQueryKeyFactory("dashboard"),
 } as const

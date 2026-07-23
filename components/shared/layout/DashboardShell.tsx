@@ -11,7 +11,7 @@ export default function DashboardShell({
   return (
     <div
       className={cn(
-        "rounded-lg bg-white dark:border dark:border-border/40 dark:bg-background dark:shadow-xl",
+        "thin-scrollbar min-h-0 overflow-y-auto rounded-lg bg-white dark:border dark:border-border/40 dark:bg-background dark:shadow-xl",
         className
       )}
     >

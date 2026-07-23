@@ -28,7 +28,12 @@ export default function TabBar() {
   return (
     <footer className="container mx-auto mt-2 rounded-lg bg-white px-4 py-3 shadow-xl md:hidden dark:border dark:border-border/40 dark:bg-background">
       <nav aria-label="Mobile navigation">
-        <ul className="grid grid-cols-4 gap-1">
+        <ul
+          className={cn(
+            "grid gap-1",
+            items.length <= 3 ? "grid-cols-3" : "grid-cols-4"
+          )}
+        >
           {items.map(({ label, href, icon: Icon }) => {
             const active = isActive(pathname, href)
             return (

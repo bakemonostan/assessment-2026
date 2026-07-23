@@ -17,6 +17,8 @@ export const SIDEBAR_NAV: NavItem[] = [
     label: "Draws",
     href: "/draws",
     icon: TicketIcon,
+    /** Draw management is admin-only */
+    roles: ["admin"],
   },
   {
     label: "Participants",

@@ -1,5 +1,5 @@
-import React from "react"
+import { DashboardPage } from "@/features/dashboard"
 
-export default function DashboardPage() {
-  return <div>DashboardPage</div>
+export default function Page() {
+  return <DashboardPage />
 }
