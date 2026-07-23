@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server"
 
+import type { DrawStatus } from "@/features/draws/types/draw"
 import { drawsStore } from "@/mocks/data/draws-store"
 
 type UpdateDrawBody = {
   name?: string
+  status?: DrawStatus
 }
 
 type RouteContext = {
@@ -31,9 +33,20 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   const body = (await request.json()) as UpdateDrawBody
   const current = drawsStore[index]
+
+  if (body.status === "cancelled") {
+    if (current.status !== "upcoming" && current.status !== "active") {
+      return NextResponse.json(
+        { message: "Only upcoming or active draws can be cancelled." },
+        { status: 400 }
+      )
+    }
+  }
+
   const updated = {
     ...current,
     name: body.name?.trim() || current.name,
+    status: body.status ?? current.status,
   }
   drawsStore[index] = updated
 

@@ -1,34 +1,23 @@
-import type { DemoDraw } from "@/components/demo-table/data"
 import { api } from "@/lib/api/client"
+import type { Draw } from "@/features/draws/types/draw"
+import {
+  cancelDraw,
+  listDraws,
+  updateDraw,
+} from "@/features/draws/services/draws"
 
-type ListDrawsParams = {
-  status?: string
-}
+export { listDraws, updateDraw, cancelDraw }
 
-type ApiListResponse<T> = {
+type ApiDataResponse<T> = {
   data: T
 }
 
-export async function listDraws(params: ListDrawsParams = {}) {
-  const response = await api.get<ApiListResponse<DemoDraw[]>>("/api/draws", {
-    params: {
-      status: params.status && params.status !== "all" ? params.status : undefined,
-    },
-  })
-  return response.data.data
-}
-
-export async function updateDraw(id: string, payload: { name: string }) {
-  const response = await api.patch<ApiListResponse<DemoDraw>>(
-    `/api/draws/${id}`,
-    payload
-  )
-  return response.data.data
-}
-
+/** Hard delete — used by the demo table only. */
 export async function deleteDraw(id: string) {
-  const response = await api.delete<ApiListResponse<{ id: string }>>(
+  const response = await api.delete<ApiDataResponse<{ id: string }>>(
     `/api/draws/${id}`
   )
   return response.data.data
 }
+
+export type { Draw }

@@ -1,5 +1,5 @@
-import type { DemoDraw } from "@/components/demo-table/data"
-import { MOCK_DRAWS } from "@/components/demo-table/data"
+import type { Draw } from "@/features/draws/types/draw"
+import { MOCK_DRAWS } from "@/mocks/data/draws-seed"
 
-/** Mutable in-memory store used by MSW handlers. */
-export const drawsStore: DemoDraw[] = structuredClone(MOCK_DRAWS)
+/** Mutable in-memory store used by API routes / MSW handlers. */
+export const drawsStore: Draw[] = structuredClone(MOCK_DRAWS)

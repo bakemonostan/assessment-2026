@@ -4,6 +4,7 @@ import { drawsStore } from "@/mocks/data/draws-store"
 
 type UpdateDrawBody = {
   name?: string
+  status?: "upcoming" | "active" | "completed" | "cancelled"
 }
 
 function isDrawsList({ request }: { request: Request }) {
@@ -56,9 +57,20 @@ export const drawsHandlers = [
 
     const body = (await request.json()) as UpdateDrawBody
     const current = drawsStore[index]
+
+    if (body.status === "cancelled") {
+      if (current.status !== "upcoming" && current.status !== "active") {
+        return HttpResponse.json(
+          { message: "Only upcoming or active draws can be cancelled." },
+          { status: 400 }
+        )
+      }
+    }
+
     const updated = {
       ...current,
       name: body.name?.trim() || current.name,
+      status: body.status ?? current.status,
     }
     drawsStore[index] = updated
     return HttpResponse.json({ data: updated })

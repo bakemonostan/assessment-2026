@@ -329,7 +329,12 @@ function DataTableContent({ className }: DataTableContentProps) {
   }
 
   return (
-    <div className={cn("overflow-hidden rounded-md border bg-card", className)}>
+    <div
+      className={cn(
+        "overflow-hidden border-t border-b border-border/60 bg-card",
+        className
+      )}
+    >
       <Table>
         <TableHeader className="bg-muted/50">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -426,7 +431,7 @@ function DataTablePagination({
   }
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 px-2 sm:flex-row sm:items-center sm:justify-between">
       <p className="text-sm text-muted-foreground">
         {totalRows != null
           ? `${totalRows} result${totalRows === 1 ? "" : "s"}`
