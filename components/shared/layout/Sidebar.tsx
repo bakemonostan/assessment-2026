@@ -75,7 +75,7 @@ export default function Sidebar({ className, ...props }: SidebarProps) {
           <Button
             type="button"
             variant="ghost"
-            className="w-full justify-start gap-2.5 p-0 text-muted-foreground hover:text-foreground"
+            className="w-full cursor-pointer justify-start gap-2.5 p-0 text-muted-foreground hover:text-foreground"
             onClick={handleLogout}
           >
             <LogOutIcon className="size-5 shrink-0" aria-hidden />
