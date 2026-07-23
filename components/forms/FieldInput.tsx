@@ -1,7 +1,17 @@
-import { Controller, type FieldValues } from "react-hook-form"
+"use client"
 
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field"
+import { useState } from "react"
+import { Controller, type FieldValues } from "react-hook-form"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 import { useFieldId, type TextFieldProps } from "./types"
@@ -24,34 +34,68 @@ export function FieldInput<T extends FieldValues>({
   description,
   id,
   type = "text",
-  placeholder = "Placeholder text",
+  placeholder = "Enter text",
   autoComplete,
   disabled,
   className,
 }: FieldInputProps<T>) {
   const fieldId = useFieldId(String(name), id)
+  const isPassword = type === "password"
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState }) => (
-        <Field data-disabled={disabled ? true : undefined}>
-          <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
+      render={({ field, fieldState }) => {
+        const input = (
           <Input
             {...field}
             id={fieldId}
-            type={type}
+            type={
+              isPassword && !showPassword
+                ? "password"
+                : isPassword
+                  ? "text"
+                  : type
+            }
             placeholder={placeholder}
             autoComplete={autoComplete}
             disabled={disabled}
             aria-invalid={fieldState.invalid || undefined}
-            className={cn(className)}
+            className={cn(isPassword && "pr-9", className)}
           />
-          {description ? <FieldDescription>{description}</FieldDescription> : null}
-          {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
-        </Field>
-      )}
+        )
+
+        return (
+          <Field data-disabled={disabled ? true : undefined}>
+            <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
+            {isPassword ? (
+              <div className="relative">
+                {input}
+                <div
+                  className="absolute top-1/2 right-1 -translate-y-1/2 text-muted-foreground"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                >
+                  {showPassword ? (
+                    <EyeOffIcon className="size-4" />
+                  ) : (
+                    <EyeIcon className="size-4" />
+                  )}
+                </div>
+              </div>
+            ) : (
+              input
+            )}
+            {description ? (
+              <FieldDescription>{description}</FieldDescription>
+            ) : null}
+            {fieldState.invalid ? (
+              <FieldError errors={[fieldState.error]} />
+            ) : null}
+          </Field>
+        )
+      }}
     />
   )
 }
