@@ -10,11 +10,7 @@ export default function Sidebar({ className }: SidebarProps) {
         className
       )}
     >
-      <div className="flex flex-col gap-4">
-        <p className="shimmer text-lg font-semibold tracking-wide text-primary uppercase">
-          TechBox
-        </p>
-      </div>
+      <div className="flex flex-col gap-4"></div>
     </div>
   )
 }
