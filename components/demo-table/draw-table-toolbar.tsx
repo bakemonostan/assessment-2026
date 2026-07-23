@@ -38,6 +38,7 @@ export function DrawTableToolbar({
           <SelectItem value="cancelled">Cancelled</SelectItem>
         </SelectContent>
       </Select>
+      <DataTable.Export filename="draws.csv" />
       <DataTable.ViewOptions />
     </DataTable.Filters>
   )

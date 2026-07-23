@@ -39,6 +39,7 @@ export function ParticipantTableToolbar({
           ))}
         </SelectContent>
       </Select>
+      <DataTable.Export filename="participants.csv" />
       <DataTable.ViewOptions />
     </DataTable.Filters>
   )

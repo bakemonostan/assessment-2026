@@ -14,8 +14,10 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table"
-import { Settings2Icon } from "lucide-react"
+import { DownloadIcon, Settings2Icon } from "lucide-react"
 import * as React from "react"
+
+import { downloadCsvFromRows } from "@/lib/csv"
 
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -58,6 +60,7 @@ import { TableSkeleton } from "./TableSkeleton"
 import type {
   DataTableContentProps,
   DataTableContextValue,
+  DataTableExportProps,
   DataTableFiltersProps,
   DataTablePaginationProps,
   DataTableProps,
@@ -66,6 +69,7 @@ import type {
 
 export type {
   DataTableContentProps,
+  DataTableExportProps,
   DataTableFiltersProps,
   DataTablePaginationProps,
   DataTableProps,
@@ -547,10 +551,73 @@ function DataTableViewOptions() {
   )
 }
 
+/**
+ * Download filtered (and sorted) rows as CSV — respects search/status filters,
+ * not just the current page.
+ */
+function DataTableExport({
+  filename = "export.csv",
+  className,
+}: DataTableExportProps) {
+  const { table } = useDataTableContext()
+  const filteredRows = table.getFilteredRowModel().rows
+
+  function handleExport() {
+    const exportColumns = table
+      .getVisibleLeafColumns()
+      .filter(
+        (column) =>
+          column.id !== "select" &&
+          column.id !== "actions" &&
+          typeof column.accessorFn !== "undefined"
+      )
+
+    if (exportColumns.length === 0) return
+
+    downloadCsvFromRows(
+      filename,
+      filteredRows,
+      exportColumns.map((column) => ({
+        header:
+          (column.columnDef.meta as { label?: string } | undefined)?.label ??
+          column.id,
+        accessor: (row) => {
+          const value = row.getValue(column.id)
+          if (value == null) return ""
+          if (
+            typeof value === "string" ||
+            typeof value === "number" ||
+            typeof value === "boolean"
+          ) {
+            return value
+          }
+          if (value instanceof Date) return value
+          return String(value)
+        },
+      }))
+    )
+  }
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      size="sm"
+      className={cn("bg-muted! hover:bg-muted/80", className)}
+      onClick={handleExport}
+      disabled={filteredRows.length === 0}
+    >
+      <DownloadIcon data-icon="inline-start" />
+      Export CSV
+    </Button>
+  )
+}
+
 export const DataTable = Object.assign(DataTableRoot, {
   Search: DataTableSearch,
   Filters: DataTableFilters,
   Content: DataTableContent,
   Pagination: DataTablePagination,
   ViewOptions: DataTableViewOptions,
+  Export: DataTableExport,
 })

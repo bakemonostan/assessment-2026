@@ -44,7 +44,11 @@ export function RecentWinnersTable({
             title: "No recent winners",
             description: "Winners will appear here after draws complete.",
           }}
-        />
+        >
+          <DataTable.Filters layout="row" className="justify-end">
+            <DataTable.Export filename="recent-winners.csv" />
+          </DataTable.Filters>
+        </DataTable>
       </CardContent>
     </Card>
   )

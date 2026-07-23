@@ -99,6 +99,15 @@ export interface DataTableContentProps {
 }
 
 /**
+ * Props for {@link DataTable}.Export (CSV download of filtered rows).
+ */
+export interface DataTableExportProps {
+  /** Download filename. `.csv` is appended when missing. @default `"export.csv"` */
+  filename?: string
+  className?: string
+}
+
+/**
  * Pagination controls. Omit props to use the table's client-side page state.
  * Pass props for server-driven pagination.
  */
