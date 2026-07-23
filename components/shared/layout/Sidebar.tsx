@@ -71,13 +71,7 @@ export default function Sidebar({ className, ...props }: SidebarProps) {
             )
           })}
         </div>
-        <div className="border-t border-border/60 pt-2 pb-4">
-          {session ? (
-            <p className="mb-2 truncate px-3 text-xs text-muted-foreground">
-              {session.email}
-              <span className="block capitalize">{session.role}</span>
-            </p>
-          ) : null}
+        <div className="flex flex-col justify-between gap-2 border-t border-border/60 pt-2 pb-4">
           <Button
             type="button"
             variant="ghost"
@@ -87,6 +81,12 @@ export default function Sidebar({ className, ...props }: SidebarProps) {
             <LogOutIcon className="size-5 shrink-0" aria-hidden />
             Log out
           </Button>
+          {session ? (
+            <p className="truncate text-xs text-muted-foreground">
+              {session.email}
+              <span className="block capitalize">{session.role}</span>
+            </p>
+          ) : null}
         </div>
       </div>
     </aside>
