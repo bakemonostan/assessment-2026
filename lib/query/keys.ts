@@ -27,4 +27,5 @@ export const queryKeys: Record<
   draws: createQueryKeyFactory("draws"),
   dashboard: createQueryKeyFactory("dashboard"),
   participants: createQueryKeyFactory("participants"),
+  winners: createQueryKeyFactory("winners"),
 } as const

@@ -1,5 +1,5 @@
-import React from "react"
+import { WinnersPage } from "@/features/winners"
 
-export default function WinnersPage() {
-  return <div>WinnersPage</div>
+export default function Page() {
+  return <WinnersPage />
 }

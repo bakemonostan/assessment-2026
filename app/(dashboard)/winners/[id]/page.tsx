@@ -1,5 +1,10 @@
-import React from "react"
+import { WinnerDetailsPage } from "@/features/winners"
 
-export default function WinnerDetailsPage() {
-  return <div>WinnerDetailsPage</div>
+type PageProps = {
+  params: Promise<{ id: string }>
+}
+
+export default async function Page({ params }: PageProps) {
+  const { id } = await params
+  return <WinnerDetailsPage winnerId={id} />
 }
