@@ -50,7 +50,7 @@ export default function Sidebar({ className, ...props }: SidebarProps) {
         className="flex h-full flex-col justify-between gap-4"
         aria-label="Main"
       >
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col items-center gap-5 lg:items-start">
           {items.map(({ label, href, icon: Icon }) => {
             const active = isActive(pathname, href)
             return (
@@ -65,8 +65,8 @@ export default function Sidebar({ className, ...props }: SidebarProps) {
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
-                <Icon className="size-4 shrink-0" aria-hidden />
-                {label}
+                <Icon className="size-5 shrink-0" aria-hidden />
+                <span className="hidden text-sm lg:block">{label}</span>
               </Link>
             )
           })}
@@ -81,10 +81,10 @@ export default function Sidebar({ className, ...props }: SidebarProps) {
           <Button
             type="button"
             variant="ghost"
-            className="w-full justify-start gap-2.5 px-3 text-muted-foreground hover:text-foreground"
+            className="w-full justify-start gap-2.5 p-0 text-muted-foreground hover:text-foreground"
             onClick={handleLogout}
           >
-            <LogOutIcon className="size-4 shrink-0" aria-hidden />
+            <LogOutIcon className="size-5 shrink-0" aria-hidden />
             Log out
           </Button>
         </div>

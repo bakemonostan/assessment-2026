@@ -19,7 +19,6 @@ export default function Navbar() {
           </Button>
           <ModeToggle />
         </div>
-        {/* switch between light and dark mode */}
       </nav>
     </header>
   )
