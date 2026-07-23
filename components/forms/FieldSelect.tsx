@@ -48,14 +48,19 @@ export function FieldSelect<T extends FieldValues>({
       control={control}
       render={({ field, fieldState }) => (
         <Field data-disabled={disabled ? true : undefined}>
-          <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
+          <FieldLabel id={`${fieldId}-label`} htmlFor={fieldId}>
+            {label}
+          </FieldLabel>
           <Select
+            name={String(name)}
+            id={fieldId}
+            autoComplete="off"
             value={field.value ?? ""}
             onValueChange={field.onChange}
             disabled={disabled}
           >
             <SelectTrigger
-              id={fieldId}
+              aria-labelledby={`${fieldId}-label`}
               aria-invalid={fieldState.invalid || undefined}
               className={cn(className)}
             >

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 
 import { loginSchema, type LoginValues } from "@/features/auth/types/login"
+import { setAuthSession } from "@/features/auth/utils/session"
 
 export function LoginForm() {
   const router = useRouter()
@@ -28,9 +29,14 @@ export function LoginForm() {
   const { isSubmitting } = formState
 
   async function onSubmit(values: LoginValues) {
-    // Mock auth — any valid email/password signs in
     await new Promise((resolve) => setTimeout(resolve, 600))
-    toast.success(`Signed in as ${values.email}`)
+
+    setAuthSession({
+      email: values.email,
+      role: values.userRole,
+    })
+
+    toast.success(`Signed in as ${values.email} (${values.userRole})`)
     router.push("/")
   }
 
@@ -59,7 +65,7 @@ export function LoginForm() {
       <FieldSelect
         control={control}
         name="userRole"
-        label="User Role"
+        label="User role"
         items={[
           { label: "Admin", value: "admin" },
           { label: "Support", value: "support" },
