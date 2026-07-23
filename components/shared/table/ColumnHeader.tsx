@@ -35,6 +35,7 @@ export function ColumnHeader<TData, TValue>({
   title,
   className,
   withSorting = false,
+  withVisibility = false,
 }: ColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort() || !withSorting) {
     return <div className={cn("font-medium", className)}>{title}</div>
@@ -72,13 +73,15 @@ export function ColumnHeader<TData, TValue>({
               Desc
             </DropdownMenuItem>
           </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-              <EyeOff className="text-muted-foreground/70" />
-              Hide
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
+          {/* <DropdownMenuSeparator />
+          {withVisibility && (
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+                <EyeOff className="text-muted-foreground/70" />
+                Hide
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          )} */}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

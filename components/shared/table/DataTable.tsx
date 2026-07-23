@@ -331,7 +331,7 @@ function DataTableContent({ className }: DataTableContentProps) {
   return (
     <div
       className={cn(
-        "overflow-hidden border-t border-b border-border/60 bg-card",
+        "overflow-hidden rounded-lg border border-border/60 bg-card",
         className
       )}
     >
@@ -503,7 +503,13 @@ function DataTableViewOptions() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="outline" size="sm" />}
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-muted! hover:bg-muted/80"
+          />
+        }
       >
         <Settings2Icon data-icon="inline-start" />
         Columns
