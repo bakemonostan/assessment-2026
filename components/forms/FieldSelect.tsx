@@ -50,7 +50,7 @@ export function FieldSelect<T extends FieldValues>({
         <Field data-disabled={disabled ? true : undefined}>
           <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
           <Select
-            value={field.value}
+            value={field.value ?? ""}
             onValueChange={field.onChange}
             disabled={disabled}
           >

@@ -54,7 +54,7 @@ export function FieldRadioButton<T extends FieldValues>({
           render={({ field, fieldState }) => (
             <>
               <RadioGroup
-                value={field.value}
+                value={field.value ?? ""}
                 onValueChange={field.onChange}
                 disabled={disabled}
                 aria-invalid={fieldState.invalid || undefined}

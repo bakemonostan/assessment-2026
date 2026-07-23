@@ -26,6 +26,7 @@ export function FieldCheckbox<T extends FieldValues>({
   id,
   disabled,
   className,
+  labelClassName,
 }: CheckboxFieldProps<T>) {
   const fieldId = useFieldId(String(name), id)
 
@@ -40,16 +41,22 @@ export function FieldCheckbox<T extends FieldValues>({
         >
           <Checkbox
             id={fieldId}
-            checked={field.value}
+            checked={field.value ?? false}
             onCheckedChange={field.onChange}
             disabled={disabled}
             aria-invalid={fieldState.invalid || undefined}
             className={cn(className)}
           />
           <div className="flex flex-col gap-1">
-            <FieldLabel htmlFor={fieldId}>{text ?? label}</FieldLabel>
-            {description ? <FieldDescription>{description}</FieldDescription> : null}
-            {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+            <FieldLabel htmlFor={fieldId} className={labelClassName}>
+              {text ?? label}
+            </FieldLabel>
+            {description ? (
+              <FieldDescription>{description}</FieldDescription>
+            ) : null}
+            {fieldState.invalid ? (
+              <FieldError errors={[fieldState.error]} />
+            ) : null}
           </div>
         </Field>
       )}

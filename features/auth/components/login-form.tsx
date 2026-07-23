@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import { FieldCheckbox, FieldInput } from "@/components/forms"
+import { FieldCheckbox, FieldInput, FieldSelect } from "@/components/forms"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 
@@ -20,6 +20,7 @@ export function LoginForm() {
       email: "",
       password: "",
       remember: false,
+      userRole: "admin",
     },
   })
 
@@ -34,7 +35,11 @@ export function LoginForm() {
   }
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form
+      className="flex flex-col gap-4"
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+    >
       <FieldInput
         control={control}
         name="email"
@@ -51,8 +56,19 @@ export function LoginForm() {
         placeholder="••••••••"
         autoComplete="current-password"
       />
-      <div className="flex items-center justify-between gap-3">
+      <FieldSelect
+        control={control}
+        name="userRole"
+        label="User Role"
+        items={[
+          { label: "Admin", value: "admin" },
+          { label: "Support", value: "support" },
+        ]}
+      />
+      <div className="grid grid-cols-2 gap-2">
         <FieldCheckbox
+          className="text-xs"
+          labelClassName="text-xs"
           control={control}
           name="remember"
           label="Remember me"
@@ -60,12 +76,18 @@ export function LoginForm() {
         />
         <Link
           href="/forgot-password"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          className="ml-auto text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
         >
           Forgot password?
         </Link>
       </div>
-      <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? <Spinner data-icon="inline-start" /> : null}
         Sign in
       </Button>

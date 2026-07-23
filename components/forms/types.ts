@@ -57,6 +57,7 @@ export interface SelectFieldProps<T extends FieldValues> extends BaseFieldProps<
 export interface CheckboxFieldProps<T extends FieldValues> extends BaseFieldProps<T> {
   /** Checkbox text label (falls back to label if omitted) */
   text?: string
+  labelClassName?: string
 }
 
 /**
