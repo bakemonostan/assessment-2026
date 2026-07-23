@@ -6,42 +6,52 @@ import { cn } from "@/lib/utils"
 type BrandLogoProps = {
   href?: string
   className?: string
-  /** Image height in px */
+  /** Display height in px */
   height?: number
   priority?: boolean
 }
 
-/**
- * TechBox wordmark. Dark navy in the asset needs a light plate in dark mode.
- */
 export function BrandLogo({
   href = "/",
   className,
   height = 32,
   priority = false,
 }: BrandLogoProps) {
-  const width = Math.round(height * (220 / 48))
+  // Intrinsic ratio ≈ 4.6:1 from the wordmark asset
+  const width = Math.round(height * 4.6)
 
   const mark = (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-md bg-white px-2 py-1 ring-1 ring-border/40",
-        className
-      )}
-    >
+    <span className="relative inline-flex shrink-0">
       <Image
         src="/techbox-logo.png"
-        alt="TechBox — Innovation that works"
+        alt=""
+        aria-hidden
         width={width}
         height={height}
-        className="h-auto w-auto"
-        style={{ height, width: "auto" }}
+        className={cn("object-contain object-left dark:hidden", className)}
+        style={{ width: "auto", height }}
+        priority={priority}
+      />
+      <Image
+        src="/techbox-logo-dark.png"
+        alt=""
+        aria-hidden
+        width={width}
+        height={height}
+        className={cn("hidden object-contain object-left dark:block", className)}
+        style={{ width: "auto", height }}
         priority={priority}
       />
     </span>
   )
 
-  if (!href) return mark
+  if (!href) {
+    return (
+      <span role="img" aria-label="TechBox — Innovation that works">
+        {mark}
+      </span>
+    )
+  }
 
   return (
     <Link href={href} className="inline-flex shrink-0" aria-label="TechBox home">
