@@ -52,7 +52,7 @@ export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   isLoading?: boolean
-  /** When true, rows show a pointer and call `onRowClick`. @default true */
+  /** When true, rows show a pointer and call `onRowClick`. @default false */
   isRowClickable?: boolean
   onRowClick?: (row: TData) => void
   /** Prepend a selection checkbox column. @default false */

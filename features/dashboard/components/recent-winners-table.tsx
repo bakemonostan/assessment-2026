@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 
 import { DataTable } from "@/components/shared/table/DataTable"
@@ -22,6 +23,7 @@ export function RecentWinnersTable({
   winners,
   isLoading = false,
 }: RecentWinnersTableProps) {
+  const router = useRouter()
   const columns = useMemo(() => getRecentWinnerColumns(), [])
 
   return (
@@ -38,7 +40,8 @@ export function RecentWinnersTable({
           data={winners}
           isLoading={isLoading}
           getRowId={(row) => row.id}
-          isRowClickable={false}
+          isRowClickable
+          onRowClick={(row) => router.push(`/winners/${row.id}`)}
           pageSize={5}
           emptyStateConfig={{
             title: "No recent winners",

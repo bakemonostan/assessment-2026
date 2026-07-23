@@ -36,7 +36,6 @@ export function ParticipantsPage() {
         data={participantsQuery.data ?? []}
         isLoading={participantsQuery.isLoading}
         getRowId={(row) => row.id}
-        isRowClickable={false}
         pageSize={10}
         emptyStateConfig={{
           title: "No participants found",

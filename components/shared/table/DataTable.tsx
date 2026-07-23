@@ -109,7 +109,7 @@ function DataTableRoot<TData, TValue>({
   columns,
   data,
   isLoading,
-  isRowClickable = true,
+  isRowClickable = false,
   onRowClick,
   withCheckbox = false,
   onSelectionChange,
@@ -321,10 +321,16 @@ function DataTableContent({ className }: DataTableContentProps) {
   } = useDataTableContext()
 
   const handleRowClick = (row: Row<unknown>, event?: React.MouseEvent) => {
-    if (event && (event.target as HTMLElement).closest("[data-checkbox]")) {
+    if (!isRowClickable || !onRowClick) return
+    const target = event?.target as HTMLElement | undefined
+    // Ignore checkbox / button / link / menu clicks inside the row
+    if (
+      target?.closest(
+        "[data-checkbox], button, a, [role='menuitem'], [data-slot='dropdown-menu-trigger']"
+      )
+    ) {
       return
     }
-    if (!isRowClickable || !onRowClick) return
     onRowClick(row.original)
   }
 

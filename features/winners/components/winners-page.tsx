@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 
 import { DataTable } from "@/components/shared/table/DataTable"
@@ -9,6 +10,7 @@ import { useWinnersQuery } from "@/features/winners/hooks/queries"
 import { getErrorMessage } from "@/lib/api/api.utils"
 
 export function WinnersPage() {
+  const router = useRouter()
   const [paymentStatus, setPaymentStatus] = useState("all")
   const winnersQuery = useWinnersQuery(paymentStatus)
   const columns = useMemo(() => getWinnerColumns(), [])
@@ -36,7 +38,8 @@ export function WinnersPage() {
         data={winnersQuery.data ?? []}
         isLoading={winnersQuery.isLoading}
         getRowId={(row) => row.id}
-        isRowClickable={false}
+        isRowClickable
+        onRowClick={(row) => router.push(`/winners/${row.id}`)}
         pageSize={10}
         emptyStateConfig={{
           title: "No winners found",
