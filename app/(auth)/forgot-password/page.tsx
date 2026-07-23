@@ -1,6 +1,5 @@
 import { ForgotPasswordForm } from "@/features/auth/components/forgot-password-form"
 import { GuestOnly } from "@/features/auth/components/guest-only"
-import { BrandLogo } from "@/components/shared/layout/BrandLogo"
 import { ArrowLeftIcon } from "lucide-react"
 import Link from "next/link"
 
@@ -15,8 +14,10 @@ export default function ForgotPasswordPage() {
         >
           <ArrowLeftIcon className="size-4 text-primary" />
         </Link>
-        <div className="flex flex-col gap-3 text-start">
-          <BrandLogo href={undefined} height={36} />
+        <div className="flex flex-col gap-1.5 text-start">
+          <p className="text-sm font-medium tracking-wide text-primary uppercase">
+            TechBox
+          </p>
           <h1 className="text-2xl font-semibold tracking-tight">
             Forgot password
           </h1>
