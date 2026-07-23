@@ -32,7 +32,7 @@ export function RecentWinnersTable({
           Latest verified and pending prize payouts
         </CardDescription>
       </CardHeader>
-      <CardContent className="px-0 pb-0 sm:px-(--card-spacing) sm:pb-(--card-spacing)">
+      <CardContent className="px-2 pb-0">
         <DataTable
           columns={columns}
           data={winners}

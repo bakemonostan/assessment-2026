@@ -35,7 +35,6 @@ export function ColumnHeader<TData, TValue>({
   title,
   className,
   withSorting = false,
-  withVisibility = false,
 }: ColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort() || !withSorting) {
     return <div className={cn("font-medium", className)}>{title}</div>

@@ -77,7 +77,7 @@ export function DrawsPage() {
         isLoading={drawsQuery.isLoading}
         getRowId={(row) => row.id}
         isRowClickable={false}
-        pageSize={8}
+        pageSize={10}
         emptyStateConfig={{
           title: "No draws found",
           description: "Try another search or clear the status filter.",

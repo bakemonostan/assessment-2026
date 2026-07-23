@@ -46,10 +46,18 @@ export function DebouncedInput({
   }, [value, debounce])
 
   return (
-    <div className={cn("relative", className)}>
+    <div
+      className={cn(
+        "relative bg-muted focus-within:ring-1 focus-within:ring-primary",
+        className
+      )}
+    >
       <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
       <Input
-        className={cn("pl-8", inputClassName)}
+        className={cn(
+          "border-none bg-transparent! focus-visible:ring-0",
+          inputClassName
+        )}
         {...props}
         value={value}
         onChange={(event) => setValue(event.target.value)}

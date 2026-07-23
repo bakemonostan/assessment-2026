@@ -115,12 +115,16 @@ export interface DataTablePaginationProps {
 /**
  * Props for {@link ColumnHeader}.
  */
-export interface ColumnHeaderProps<TData, TValue>
-  extends HTMLAttributes<HTMLDivElement> {
+export interface ColumnHeaderProps<
+  TData,
+  TValue,
+> extends HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
   /** Show sort / hide dropdown. @default false */
   withSorting?: boolean
+  /** Show visibility dropdown. @default false */
+  withVisibility?: boolean
 }
 
 /**
