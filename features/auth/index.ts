@@ -1,5 +1,5 @@
 export { LoginForm } from "./components/login-form"
-export { loginSchema, type LoginValues } from "./types/login"
+export { loginSchema, type LoginValues } from "./types/autth"
 export { USER_ROLES, type UserRole, isUserRole } from "./types/role"
 export {
   clearAuthSession,

@@ -10,7 +10,7 @@ import { FieldCheckbox, FieldInput, FieldSelect } from "@/components/forms"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 
-import { loginSchema, type LoginValues } from "@/features/auth/types/login"
+import { loginSchema, type LoginValues } from "@/features/auth/types/autth"
 import { setAuthSession } from "@/features/auth/utils/session"
 
 export function LoginForm() {

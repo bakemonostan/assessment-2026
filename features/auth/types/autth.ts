@@ -9,4 +9,9 @@ export const loginSchema = z.object({
   userRole: z.enum(USER_ROLES),
 })
 
+export const forgotPasswordSchema = z.object({
+  email: z.email("Enter a valid email"),
+})
+
 export type LoginValues = z.infer<typeof loginSchema>
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>

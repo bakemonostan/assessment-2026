@@ -41,6 +41,7 @@ export function FieldSelect<T extends FieldValues>({
   className,
 }: SelectFieldProps<T>) {
   const fieldId = useFieldId(String(name), id)
+  const labelId = `${fieldId}-label`
 
   return (
     <Controller
@@ -48,11 +49,10 @@ export function FieldSelect<T extends FieldValues>({
       control={control}
       render={({ field, fieldState }) => (
         <Field data-disabled={disabled ? true : undefined}>
-          <FieldLabel id={`${fieldId}-label`} htmlFor={fieldId}>
+          <FieldLabel id={labelId} htmlFor={fieldId}>
             {label}
           </FieldLabel>
           <Select
-            name={String(name)}
             id={fieldId}
             autoComplete="off"
             value={field.value ?? ""}
@@ -60,7 +60,7 @@ export function FieldSelect<T extends FieldValues>({
             disabled={disabled}
           >
             <SelectTrigger
-              aria-labelledby={`${fieldId}-label`}
+              aria-labelledby={labelId}
               aria-invalid={fieldState.invalid || undefined}
               className={cn(className)}
             >
