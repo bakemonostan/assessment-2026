@@ -1,3 +1,4 @@
+/** Format a number as NGN currency (no decimals). */
 export function formatCurrency(value: number) {
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
@@ -6,6 +7,7 @@ export function formatCurrency(value: number) {
   }).format(value)
 }
 
+/** Format an ISO date-time string (e.g. `23 Jul 2026, 14:22`). */
 export function formatDateTime(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
@@ -16,6 +18,7 @@ export function formatDateTime(value: string) {
   }).format(new Date(value))
 }
 
+/** Format an ISO date string (e.g. `23 Jul 2026`). */
 export function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",

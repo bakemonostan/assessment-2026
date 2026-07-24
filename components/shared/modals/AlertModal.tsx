@@ -21,13 +21,22 @@ import { focusFirstField } from "./focus"
 export type { AlertModalProps, SharedModalProps } from "./types"
 
 /**
- * Confirmation dialog built on shadcn AlertDialog (Base UI).
+ * Confirm dialog for destructive / irreversible actions.
  *
- * Focus: first field in the body if present, otherwise Cancel/Confirm.
- * On close, focus returns to the trigger / previously focused element.
- *
- * Use for destructive or irreversible actions (delete, cancel draw, etc.).
- * Controlled via `open` / `onOpenChange`.
+ * @example
+ * ```tsx
+ * <AlertModal
+ *   open={open}
+ *   onOpenChange={setOpen}
+ *   title="Cancel draw?"
+ *   description="This cannot be undone."
+ *   confirmText="Cancel draw"
+ *   variant="destructive"
+ *   isPending={isPending}
+ *   trigger={<Button variant="destructive">Cancel</Button>}
+ *   onConfirm={() => cancelMutation.mutate(id)}
+ * />
+ * ```
  */
 export function AlertModal({
   open,

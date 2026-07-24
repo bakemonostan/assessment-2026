@@ -7,11 +7,13 @@ export type AuthSession = {
   role: UserRole
 }
 
+/** Persist the mock auth session in `localStorage`. */
 export function setAuthSession(session: AuthSession) {
   if (typeof window === "undefined") return
   localStorage.setItem(SESSION_KEY, JSON.stringify(session))
 }
 
+/** Read the mock auth session, or `null` if missing/invalid. */
 export function getAuthSession(): AuthSession | null {
   if (typeof window === "undefined") return null
 
@@ -25,6 +27,7 @@ export function getAuthSession(): AuthSession | null {
   }
 }
 
+/** Clear the mock auth session. */
 export function clearAuthSession() {
   if (typeof window === "undefined") return
   localStorage.removeItem(SESSION_KEY)

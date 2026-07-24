@@ -17,16 +17,20 @@ import { focusFirstField } from "./focus"
 export type { ModalContainerProps, SharedModalProps } from "./types"
 
 /**
- * General-purpose dialog shell built on shadcn Dialog (Base UI).
+ * General dialog shell for forms and detail views.
  *
- * Focus: first form field on open (falls back to first tabbable).
- * On close, focus returns to the trigger / previously focused element.
- *
- * Use for forms, detail views, and multi-step content.
- * For confirm/cancel flows, prefer {@link AlertModal}.
- *
- * Width and layout: pass Tailwind classes via `className`
- * (e.g. `sm:max-w-lg`). No built-in size prop.
+ * @example
+ * ```tsx
+ * <ModalContainer
+ *   open={open}
+ *   onOpenChange={setOpen}
+ *   title="Edit draw"
+ *   className="sm:max-w-md"
+ *   trigger={<Button>Edit</Button>}
+ * >
+ *   <EditForm />
+ * </ModalContainer>
+ * ```
  */
 export function ModalContainer({
   open,

@@ -1,5 +1,6 @@
 import { ApiError, type ApiFieldErrors } from "@/lib/api/api.types"
 
+/** Type guard for {@link ApiError}. */
 export function isApiError(error: unknown): error is ApiError {
   return error instanceof ApiError
 }
@@ -19,6 +20,7 @@ export function getErrorMessage(error: unknown): string {
   return "An unexpected error occurred"
 }
 
+/** Pull a top-level message string from an API response body. */
 export function getServerMessage(body: unknown): string | undefined {
   if (typeof body === "string") return body.trim() || undefined
   if (!body || typeof body !== "object") return undefined
@@ -34,6 +36,7 @@ export function getServerMessage(body: unknown): string | undefined {
   return Object.values(fieldErrors).flat()[0]
 }
 
+/** Parse field-level validation errors from an API body. */
 export function getFieldErrors(body: unknown): ApiFieldErrors | undefined {
   if (!body || typeof body !== "object") return undefined
 
@@ -61,6 +64,7 @@ export function getFieldErrors(body: unknown): ApiFieldErrors | undefined {
   return Object.keys(fieldErrors).length ? fieldErrors : undefined
 }
 
+/** Default message for a given HTTP status when the body has none. */
 export function getHttpFallbackMessage(status: number): string {
   if (status === 400) return "Bad request. Please check your input."
   if (status === 401) return "Your session is not authorized."
@@ -75,6 +79,7 @@ export function getHttpFallbackMessage(status: number): string {
   return `Request failed with status ${status}.`
 }
 
+/** Build a normalized {@link ApiError} from an HTTP response. */
 export function createHttpError({
   status,
   body,
@@ -98,7 +103,12 @@ export function createHttpError({
 }
 
 /**
- * TanStack Query retry policy: retry transient failures only.
+ * TanStack Query retry policy — retry transient failures only.
+ *
+ * @example
+ * ```ts
+ * retry: shouldRetryRequest
+ * ```
  */
 export function shouldRetryRequest(
   failureCount: number,

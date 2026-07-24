@@ -5,6 +5,7 @@ import { createHttpError } from "@/lib/api/api.utils"
 
 const API_TIMEOUT_MS = 15_000
 
+/** Shared axios client — maps failures to {@link ApiError}. */
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL ?? "",
   timeout: API_TIMEOUT_MS,

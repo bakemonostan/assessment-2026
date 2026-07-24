@@ -5,6 +5,7 @@ export type CsvColumn<T> = {
   accessor: (row: T) => CsvCellValue
 }
 
+/** Escape a single CSV cell (quotes, commas, newlines). */
 function escapeCsvCell(value: CsvCellValue): string {
   if (value == null) return ""
 
@@ -24,7 +25,14 @@ function escapeCsvCell(value: CsvCellValue): string {
   return raw
 }
 
-/** Build a CSV string from rows + column definitions. */
+/**
+ * Build a CSV string from rows + column definitions.
+ *
+ * @example
+ * ```ts
+ * toCsv(rows, [{ header: "Name", accessor: (r) => r.name }])
+ * ```
+ */
 export function toCsv<T>(rows: T[], columns: CsvColumn<T>[]): string {
   const header = columns.map((column) => escapeCsvCell(column.header)).join(",")
   const body = rows.map((row) =>
@@ -33,7 +41,14 @@ export function toCsv<T>(rows: T[], columns: CsvColumn<T>[]): string {
   return [header, ...body].join("\n")
 }
 
-/** Trigger a browser download for a CSV string. */
+/**
+ * Trigger a browser download for a CSV string.
+ *
+ * @example
+ * ```ts
+ * downloadCsv("draws.csv", csvString)
+ * ```
+ */
 export function downloadCsv(filename: string, csv: string) {
   const blob = new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8;" })
   const url = URL.createObjectURL(blob)
@@ -49,7 +64,14 @@ export function downloadCsv(filename: string, csv: string) {
   URL.revokeObjectURL(url)
 }
 
-/** Convert rows to CSV and download in one step. */
+/**
+ * Convert rows to CSV and download in one step.
+ *
+ * @example
+ * ```ts
+ * downloadCsvFromRows("draws.csv", rows, columns)
+ * ```
+ */
 export function downloadCsvFromRows<T>(
   filename: string,
   rows: T[],

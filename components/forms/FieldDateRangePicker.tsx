@@ -56,18 +56,23 @@ export function FieldDateRangePicker<T extends FieldValues>({
                   disabled={disabled}
                   aria-invalid={fieldState.invalid || undefined}
                   className={cn(
-                    "h-10 w-full justify-between border-border bg-background font-normal text-foreground shadow-sm hover:bg-muted/50 [&[data-state=open]]:ring-2 [&[data-state=open]]:ring-ring/20",
+                    "h-10 w-full justify-between border-border bg-background font-normal text-foreground shadow-sm hover:bg-muted/50 data-[state=open]:ring-2 data-[state=open]:ring-ring/20",
                     className
                   )}
                 />
               }
             >
-              <span className={field.value?.from ? "" : "text-muted-foreground"}>
+              <span
+                className={field.value?.from ? "" : "text-muted-foreground"}
+              >
                 {formatDateRange(field.value, placeholder)}
               </span>
               <ChevronDownIcon />
             </PopoverTrigger>
-            <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+            <PopoverContent
+              className="w-auto overflow-hidden p-0"
+              align="start"
+            >
               <Calendar
                 mode="range"
                 defaultMonth={field.value?.from}
@@ -83,8 +88,12 @@ export function FieldDateRangePicker<T extends FieldValues>({
               />
             </PopoverContent>
           </Popover>
-          {description ? <FieldDescription>{description}</FieldDescription> : null}
-          {fieldState.invalid ? <FieldError errors={[fieldState.error]} /> : null}
+          {description ? (
+            <FieldDescription>{description}</FieldDescription>
+          ) : null}
+          {fieldState.invalid ? (
+            <FieldError errors={[fieldState.error]} />
+          ) : null}
         </Field>
       )}
     />

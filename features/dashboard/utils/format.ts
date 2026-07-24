@@ -1,3 +1,4 @@
+/** Format a number as NGN currency (no decimals). */
 export function formatCurrency(value: number) {
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
@@ -6,6 +7,7 @@ export function formatCurrency(value: number) {
   }).format(value)
 }
 
+/** Format a number with `en-NG` grouping. */
 export function formatNumber(value: number) {
   return new Intl.NumberFormat("en-NG").format(value)
 }

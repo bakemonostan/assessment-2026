@@ -3,6 +3,12 @@ type QueryFilters = Readonly<Record<string, unknown>>
 
 /**
  * Hierarchical TanStack Query keys for one resource.
+ *
+ * @example
+ * ```ts
+ * queryKeys.draws.list({ status: "active" })
+ * queryKeys.winners.detail("w1")
+ * ```
  */
 export function createQueryKeyFactory<const Scope extends string>(
   scope: Scope
@@ -20,6 +26,7 @@ export function createQueryKeyFactory<const Scope extends string>(
   }
 }
 
+/** App-wide query key factories. */
 export const queryKeys: Record<
   string,
   ReturnType<typeof createQueryKeyFactory>
