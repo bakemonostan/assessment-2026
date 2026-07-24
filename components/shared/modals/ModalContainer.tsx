@@ -19,17 +19,40 @@ export type { ModalContainerProps, SharedModalProps } from "./types"
 /**
  * General dialog shell for forms and detail views.
  *
- * @example
+ * @example Controlled with `useState` (e.g. open from a table action)
  * ```tsx
- * <ModalContainer
- *   open={open}
- *   onOpenChange={setOpen}
- *   title="Edit draw"
- *   className="sm:max-w-md"
- *   trigger={<Button>Edit</Button>}
- * >
- *   <EditForm />
- * </ModalContainer>
+ * const [open, setOpen] = useState(false)
+ *
+ * return (
+ *   <>
+ *     <Button onClick={() => setOpen(true)}>Edit</Button>
+ *     <ModalContainer
+ *       open={open}
+ *       onOpenChange={setOpen}
+ *       title="Edit draw"
+ *       className="sm:max-w-md"
+ *     >
+ *       <EditForm />
+ *     </ModalContainer>
+ *   </>
+ * )
+ * ```
+ *
+ * @example With `trigger` (dialog opens when the trigger is clicked)
+ * ```tsx
+ * const [open, setOpen] = useState(false)
+ *
+ * return (
+ *   <ModalContainer
+ *     open={open}
+ *     onOpenChange={setOpen}
+ *     title="Edit draw"
+ *     className="sm:max-w-md"
+ *     trigger={<Button>Edit</Button>}
+ *   >
+ *     <EditForm />
+ *   </ModalContainer>
+ * )
  * ```
  */
 export function ModalContainer({

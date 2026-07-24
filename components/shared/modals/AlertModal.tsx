@@ -23,19 +23,46 @@ export type { AlertModalProps, SharedModalProps } from "./types"
 /**
  * Confirm dialog for destructive / irreversible actions.
  *
- * @example
+ * @example Controlled with `useState` (e.g. open from a row action menu)
  * ```tsx
- * <AlertModal
- *   open={open}
- *   onOpenChange={setOpen}
- *   title="Cancel draw?"
- *   description="This cannot be undone."
- *   confirmText="Cancel draw"
- *   variant="destructive"
- *   isPending={isPending}
- *   trigger={<Button variant="destructive">Cancel</Button>}
- *   onConfirm={() => cancelMutation.mutate(id)}
- * />
+ * const [open, setOpen] = useState(false)
+ *
+ * return (
+ *   <>
+ *     <Button variant="destructive" onClick={() => setOpen(true)}>
+ *       Cancel
+ *     </Button>
+ *     <AlertModal
+ *       open={open}
+ *       onOpenChange={setOpen}
+ *       title="Cancel draw?"
+ *       description="This cannot be undone."
+ *       confirmText="Cancel draw"
+ *       variant="destructive"
+ *       isPending={isPending}
+ *       onConfirm={() => cancelMutation.mutate(id)}
+ *     />
+ *   </>
+ * )
+ * ```
+ *
+ * @example With `trigger` (dialog opens when the trigger is clicked)
+ * ```tsx
+ * const [open, setOpen] = useState(false)
+ *
+ * return (
+ *   <AlertModal
+ *     open={open}
+ *     onOpenChange={setOpen}
+ *     title="Cancel draw?"
+ *     description="This cannot be undone."
+ *     confirmText="Cancel draw"
+ *     variant="destructive"
+ *     isPending={isPending}
+ *     trigger={<Button variant="destructive">Cancel</Button>}
+ *     onConfirm={() => cancelMutation.mutate(id)}
+ *   />
+ * )
  * ```
  */
 export function AlertModal({
